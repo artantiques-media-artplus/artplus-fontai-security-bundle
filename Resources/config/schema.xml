@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" identifierQuoting="true" namespace="App\Model" package="src.Model">
+  <vendor type="mysql">
+    <parameter name="Engine" value="InnoDB" />
+  </vendor>
+  <behavior name="event_dispatcher" />
+  <table name="session" baseClass="\Fontai\Bundle\SecurityBundle\Model\BaseSession">
+    <column name="id" type="varchar" size="128" primaryKey="true" required="true" />
+    <column name="admin_id" type="integer" />
+    <column name="data" type="longvarbinary" />
+    <column name="lifetime" type="integer" required="true" />
+    <column name="last_ip" type="varchar" size="39" required="true" />
+    <column name="last_useragent" type="varchar" size="1023" />
+    <column name="last_geoip" type="varchar" size="255" />
+    <column name="last_browser" type="varchar" size="255" />
+    <behavior name="timestampable" />
+    <foreign-key foreignTable="admin" name="session_FK_1" onDelete="CASCADE">
+      <reference local="admin_id" foreign="id" />
+    </foreign-key>
+  </table>
+</database>

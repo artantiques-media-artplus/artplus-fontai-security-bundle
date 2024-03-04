@@ -1,0 +1,67 @@
+services:
+    _defaults:
+        public: false
+
+    fontai_security.security.user.provider:
+        class: Fontai\Bundle\SecurityBundle\Security\User\PropelUserProvider
+        abstract: true
+
+    fontai_security.routing.loader:
+        class: Fontai\Bundle\SecurityBundle\Routing\Loader
+        tags:
+            - { name: routing.loader }
+        arguments:
+            - '%fontai_security.sections%'
+
+    fontai_security.authentication.listener.init_hash_login:
+        class: Fontai\Bundle\SecurityBundle\Http\Firewall\InitHashAuthenticationListener
+        abstract: true
+        arguments:
+            - '@security.token_storage'
+            - '@security.authentication.manager'
+            - '@security.http_utils'
+            - {}
+            - null
+            - null
+            - null
+            - '@logger'
+            - '@event_dispatcher'
+        tags:
+            - { name: monolog.logger, channel: security }
+
+    fontai_security.authentication.listener.init_hash_localized_login:
+        class: Fontai\Bundle\SecurityBundle\Http\Firewall\InitHashLocalizedAuthenticationListener
+        parent: fontai_security.authentication.listener.init_hash_login
+        public: false
+        abstract: true
+
+    fontai_security.authentication.listener.form_localized:
+        class: Fontai\Bundle\SecurityBundle\Http\Firewall\UsernamePasswordFormLocalizedAuthenticationListener
+        parent: security.authentication.listener.abstract
+        public: false
+        abstract: true
+
+    fontai_security.authentication.form_localized_entry_point:
+        class: Fontai\Bundle\SecurityBundle\Http\EntryPoint\FormLocalizedAuthenticationEntryPoint
+        abstract: true
+        arguments:
+            - '@http_kernel'
+
+    Fontai\Bundle\SecurityBundle\Command\UpdateConfigCommand:
+        tags:
+            - { name: console.command, command: fontai-security:update-config }
+        arguments:
+            - '%kernel.project_dir%'
+            - '%fontai_security.sections%'
+
+    Fontai\Bundle\SecurityBundle\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '@propel.connection.session'
+            - { db_table: session, db_username: '%env(DATABASE_USER)%', db_password: '%env(DATABASE_PASSWORD)%' }
+            - '@request_stack'
+
+    propel.connection.session:
+        class: Propel\Runtime\Connection\ConnectionWrapper
+        factory: ['Propel\Runtime\Propel', getConnection]
+        arguments:
+            - 'session'

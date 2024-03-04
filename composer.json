@@ -1,0 +1,27 @@
+{
+    "name": "fontai/security-bundle",
+    "type": "symfony-bundle",
+    "description": "Fontai SecurityBundle",
+    "authors": [
+        {
+            "name": "Lumír Toman",
+            "email": "toman@websource.cz"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "fontai/browscap-bundle": "*",
+        "fontai/geoip-bundle": "*",
+        "fontai/mailer-bundle": "*",
+        "fontai/propel2-wascolumnmodified-behavior": "*",
+        "propel/propel-bundle": "~4.0@dev",
+        "symfony/security-bundle": ">=4.4.0"
+    },
+    "autoload": {
+        "psr-4": { "Fontai\\Bundle\\SecurityBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}

@@ -1,1 +1,2 @@
-# artplus-fontai-security-bundle
+FontaiSecurityBundle
+====================

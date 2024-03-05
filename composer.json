@@ -14,7 +14,7 @@
         "fontai/geoip-bundle": "*",
         "fontai/mailer-bundle": "*",
         "fontai/propel2-wascolumnmodified-behavior": "*",
-        "propel/propel-bundle": "~4.0@dev",
+        "propel/propel-bundle": "dev-main",
         "symfony/security-bundle": ">=4.4.0"
     },
     "autoload": {
